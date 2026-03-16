@@ -20,6 +20,10 @@ class CDRRecord extends Model
         "caller"
     ];
 
+    protected $dates = [
+        "call_date"
+    ];
+
 
 
 
