@@ -17,13 +17,14 @@ class CDRRecord extends Model
         "call_date",
         "call_time",
         "answered_by",
-        "caller"
+        "caller",
     ];
 
-    protected $dates = [
-        "call_date"
-    ];
 
+    protected $casts = [
+        'call_date' => 'datetime',
+        'call_time' => 'datetime',
+    ];
 
 
 
