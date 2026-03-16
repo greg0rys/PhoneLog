@@ -26,6 +26,8 @@ class CDRRecord extends Model
         'call_time' => 'datetime',
     ];
 
+    
+
 
 
 }
