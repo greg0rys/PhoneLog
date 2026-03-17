@@ -15,10 +15,7 @@ class CDRRecordController extends Controller
     {
         //
         $record = CDRRecord::orderBy("id", "desc")->paginate(10);
-
-        return view("record.index", [
-            "record" => $record
-        ]);
+        return view("record.upload-csv");
     }
 
     /**
