@@ -6,6 +6,7 @@ __3/17/2026__
     * removed the parse method from the cdr record controller in favor of the Parser helper class
     * renamed search() to search_by_number()
     * added search_by_date()
+    * added upload-csv view to allow the upload of CSV files manually
 ```php
 <?php
     
@@ -26,4 +27,6 @@ __3/17/2026__
     
         return CDRRecord::where('call_date', $cDRRecord->call_date);
     }
+
+    Route::resource('upload-csv', CDRRecordController::class);
 
