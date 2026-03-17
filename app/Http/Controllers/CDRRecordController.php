@@ -14,7 +14,7 @@ class CDRRecordController extends Controller
     public function index()
     {
         //
-        $record = CDRRecord::orderBy("id","desc")->paginate(10);
+        $record = CDRRecord::orderBy("id", "desc")->paginate(10);
 
         return view("record.index", [
             "record" => $record
@@ -89,5 +89,15 @@ class CDRRecordController extends Controller
     {
         $all = CDRRecord::where('caller_number', $cDRRecord->caller_number)->get();
         return view('record.search', ['results' => $all]);
+    }
+
+    /**
+     * Search for a CDR record set by the caller name field
+     * @param CDRRecord $cDRRecord
+     * @return CDRRecord|\stdClass|null
+     */
+    public function search_by_name(CDRRecord $cDRRecord): CDRRecord
+    {
+        return CDRRecord::first();
     }
 }

@@ -16,3 +16,8 @@ indent_size = 2
 
 [compose.yaml]
 indent_size = 4
+
+"[php]": {
+    "php.format.codeStyle": "Allman"
+}
+

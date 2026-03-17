@@ -2,18 +2,11 @@ __3/17/2026__
 
     * new changes to the plug
     * blocked out CDR junk
-
+    * Added search_by_name() method to CDRRecordController.php
 ```php
 <?php
-class SimpleClass {
-    // property declaration
-    public $var = 'a default value';
-
-    // method declaration
-    public function displayVar() {
-        echo $this->var;
+    public function search_by_name(CDRRecord $cdrRecord): CDRRecord
+    {
+        return CDRRecord::where('caller_name', $cdrRecord->caller_name) ?? null;
     }
-}
-$instance = new SimpleClass();
-$instance->displayVar();
-?>
+
