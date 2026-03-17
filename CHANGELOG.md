@@ -5,4 +5,3 @@ __3/17/2026__
     > Code Changes
         ```php 
         <?php is_array($x)>
-        ```
