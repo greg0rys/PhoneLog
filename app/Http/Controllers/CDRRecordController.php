@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CDRRecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all cdr records for the user.
      */
     public function index()
     {
@@ -69,23 +69,13 @@ class CDRRecordController extends Controller
         //
     }
 
-    /**
-     * Summary of parsed CDR File.
-     * @param CDRRecord $cDRRecord - the CDR Record object to parse.
-     * @return void
-     */
-    private function parse(CDRRecord $cDRRecord)
-    {
-        Parser::parse_file();
-
-    }
 
     /**
-     * Search for all records for a given phone number and return them in a grouped view
+     * Search for records that match the caller name field.
      * @param CDRRecord $cDRRecord
      * @return \Illuminate\Contracts\View\View
      */
-    public function search(CDRRecord $cDRRecord)
+    public function search_by_number(CDRRecord $cDRRecord)
     {
         $all = CDRRecord::where('caller_number', $cDRRecord->caller_number)->get();
         return view('record.search', ['results' => $all]);
