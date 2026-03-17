@@ -6,6 +6,7 @@ use App\Models\CDRRecord;
 use App\Models\Parser;
 use Illuminate\Http\Request;
 
+
 class CDRRecordController extends Controller
 {
     /**
@@ -37,7 +38,7 @@ class CDRRecordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CDRRecord $cDRRecord)
+    public function show(CDRRecord $cdr)
     {
         //
     }
@@ -45,7 +46,7 @@ class CDRRecordController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CDRRecord $cDRRecord)
+    public function edit(CDRRecord $cdr)
     {
         //
     }
@@ -53,7 +54,7 @@ class CDRRecordController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CDRRecord $cDRRecord)
+    public function update(Request $request, CDRRecord $cdr)
     {
         //
     }
@@ -61,7 +62,7 @@ class CDRRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CDRRecord $cDRRecord)
+    public function destroy(CDRRecord $cdr)
     {
         //
     }
@@ -72,9 +73,9 @@ class CDRRecordController extends Controller
      * @param CDRRecord $cDRRecord
      * @return \Illuminate\Contracts\View\View
      */
-    public function search_by_number(CDRRecord $cDRRecord)
+    public function search_by_number(CDRRecord $cdr)
     {
-        $all = CDRRecord::where('caller_number', $cDRRecord->caller_number)->get();
+        $all = CDRRecord::where('caller_number', $cdr->caller_number)->get();
         return view('record.search', ['results' => $all]);
     }
 
@@ -83,7 +84,7 @@ class CDRRecordController extends Controller
      * @param CDRRecord $cDRRecord
      * @return CDRRecord|\stdClass|null
      */
-    public function search_by_name(CDRRecord $cDRRecord): CDRRecord
+    public function search_by_name(CDRRecord $cdr): CDRRecord
     {
         return CDRRecord::first();
     }
@@ -93,8 +94,8 @@ class CDRRecordController extends Controller
      * @param CDRRecord $cDRRecord
      * @return CDRRecord
      */
-    public function search_by_date(CDRRecord $cDRRecord): CDRRecord
+    public function search_by_date(CDRRecord $cdr): CDRRecord
     {
-        return CDRRecord::where('caller_name', $cDRRecord->caller_name);
+        return CDRRecord::where('caller_name', $cdr->caller_name);
     }
 }

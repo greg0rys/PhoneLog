@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\CDRRecordObserver;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord newModelQuery()
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withoutTrashed()
  * @mixin \Eloquent
  */
+#[ObservedBy(CDRRecordObserver::class)]
 class CDRRecord extends Model
 {
     use SoftDeletes;

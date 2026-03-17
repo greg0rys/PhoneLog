@@ -6,10 +6,15 @@ use App\Models\CDRRecord;
 
 class CDRRecordObserver
 {
+    public function saving(CDRRecord $cdr)
+    {
+        // validate at save this fires before created
+        
+    }
     /**
      * Handle the CDRRecord "created" event.
      */
-    public function created(CDRRecord $cDRRecord): void
+    public function created(CDRRecord $cdr): void
     {
         //
     }
@@ -17,7 +22,7 @@ class CDRRecordObserver
     /**
      * Handle the CDRRecord "updated" event.
      */
-    public function updated(CDRRecord $cDRRecord): void
+    public function updated(CDRRecord $cdr): void
     {
         //
     }
@@ -25,7 +30,7 @@ class CDRRecordObserver
     /**
      * Handle the CDRRecord "deleted" event.
      */
-    public function deleted(CDRRecord $cDRRecord): void
+    public function deleted(CDRRecord $cdr): void
     {
         //
     }
@@ -33,7 +38,7 @@ class CDRRecordObserver
     /**
      * Handle the CDRRecord "restored" event.
      */
-    public function restored(CDRRecord $cDRRecord): void
+    public function restored(CDRRecord $cdr): void
     {
         //
     }
@@ -41,7 +46,7 @@ class CDRRecordObserver
     /**
      * Handle the CDRRecord "force deleted" event.
      */
-    public function forceDeleted(CDRRecord $cDRRecord): void
+    public function forceDeleted(CDRRecord $cdr): void
     {
         //
     }
