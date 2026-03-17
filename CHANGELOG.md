@@ -2,6 +2,18 @@ __3/17/2026__
 
     * new changes to the plug
     * blocked out CDR junk
-    > Code Changes
-        ```php 
-        <?php is_array($x)>
+
+```php
+<?php
+class SimpleClass {
+    // property declaration
+    public $var = 'a default value';
+
+    // method declaration
+    public function displayVar() {
+        echo $this->var;
+    }
+}
+$instance = new SimpleClass();
+$instance->displayVar();
+?>
