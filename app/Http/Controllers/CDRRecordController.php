@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CDRRecord;
+use App\Models\Parser;
 use Illuminate\Http\Request;
 
 class CDRRecordController extends Controller
@@ -13,6 +14,11 @@ class CDRRecordController extends Controller
     public function index()
     {
         //
+        $record = CDRRecord::orderBy("id","desc")->paginate(10);
+
+        return view("record.index", [
+            "record" => $record
+        ]);
     }
 
     /**
@@ -70,12 +76,8 @@ class CDRRecordController extends Controller
      */
     private function parse(CDRRecord $cDRRecord)
     {
-        if(!$cDRRecord)
-            return;
+        Parser::parse_file();
 
-        CDRRecord::create([
-            '' => '',
-        ]);
     }
 
     /**
