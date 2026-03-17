@@ -5,6 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withoutTrashed()
+ * @mixin \Eloquent
+ */
 class CDRRecord extends Model
 {
     use SoftDeletes;
@@ -14,16 +23,18 @@ class CDRRecord extends Model
      * @var array
      */
     protected $fillable = [
+        "caller",
         "call_date",
         "call_time",
         "answered_by",
-        "caller",
     ];
 
 
     protected $casts = [
         'call_date' => 'datetime',
         'call_time' => 'datetime',
+        'caller' => 'string',
+        'answered_by' => 'string',
     ];
 
     

@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CDRRecord;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Parser newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Parser newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Parser query()
+ * @mixin \Eloquent
+ */
 class Parser extends Model
 {
     protected $results = []; // store parsed record objects
@@ -25,9 +31,9 @@ class Parser extends Model
      */
     static public function parse_file(): void
     {
-        $this->results[] = CDRRecord::create([
-
-        ]);
+        // parse the cdr file.
+        $file = storage_path("storage/public/records");
+        
     }
 
     /**
@@ -36,7 +42,7 @@ class Parser extends Model
      */
     static public function get_results(): array
     {
-        return $this->results;
+        return [];
     }
 
     /**

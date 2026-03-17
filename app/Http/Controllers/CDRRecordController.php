@@ -90,4 +90,14 @@ class CDRRecordController extends Controller
     {
         return CDRRecord::first();
     }
+
+    /**
+     * Search for CDR Records by a date range.
+     * @param CDRRecord $cDRRecord
+     * @return CDRRecord
+     */
+    public function search_by_date(CDRRecord $cDRRecord): CDRRecord
+    {
+        return CDRRecord::where('caller_name', $cDRRecord->caller_name);
+    }
 }

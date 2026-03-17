@@ -5,6 +5,7 @@ __3/17/2026__
     * Added search_by_name() method to CDRRecordController.php
     * removed the parse method from the cdr record controller in favor of the Parser helper class
     * renamed search() to search_by_number()
+    * added search_by_date()
 ```php
 <?php
     
@@ -17,5 +18,12 @@ __3/17/2026__
     {
         $all = CDRRecord::where('caller_number', $cDRRecord->caller_number)->get();
         return view('record.search', ['results' => $all]);
+    }
+
+
+    public function search_by_date(CDRRecord $cDRRecord): CDRRecord
+    {
+    
+        return CDRRecord::where('call_date', $cDRRecord->call_date);
     }
 
