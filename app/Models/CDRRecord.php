@@ -14,6 +14,24 @@ use App\Observers\CDRRecordObserver;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withoutTrashed()
+ * @property int $id
+ * @property string|null $caller_number
+ * @property string|null $caller_id
+ * @property string|null $call_status
+ * @property string|null $start_time
+ * @property string|null $end_time
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallerNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereEndTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 #[ObservedBy(CDRRecordObserver::class)]

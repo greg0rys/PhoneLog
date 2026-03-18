@@ -77,11 +77,11 @@ class Parser extends Model
      * @param string $file2
      * @return Collection<string, string>
      */
-    static public function find_duplicate_rows(string $file1, string $file2): Collection
+    static public function find_duplicate_rows(string $path_one, string $path_two): Collection
     {
         $duplicates = new Collection();
 
-        $duplicates->add([]);
+        $duplicates->add("v");
         return $duplicates;
     }
 
