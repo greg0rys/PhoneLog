@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CDRRecord;
+use Illuminate\Support\Collection;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Parser newModelQuery()
@@ -49,7 +50,6 @@ class Parser extends Model
                     $callStatus = isset($record['Call Status']) ? $record['Call Status'] : 'Unknown';
                     $startTime = isset($record['Start Time']) ? $record['Start Time'] : 'Unknown';
                     $endTime = isset($record['End Time']) ? $record['End Time'] : 'Unknown';
-                    $answered_by = isset($record['Answered By']) ? $record['Answered By'] : 'Unknown';
 
                     // create and store record
                     CDRRecord::create([
@@ -58,7 +58,6 @@ class Parser extends Model
                         'call_status' => $callStatus,
                         'start_time' => $startTime,
                         'end_time' => $endTime,
-                        'answered_by' => $answered_by,
                     ]);
                 }
             }
@@ -70,6 +69,20 @@ class Parser extends Model
         }
 
         return true;
+    }
+
+    /**
+     * compare two files and return duplicate rows as a collection of strings
+     * @param string $file1
+     * @param string $file2
+     * @return Collection<string, string>
+     */
+    static public function find_duplicate_rows(string $file1, string $file2): Collection
+    {
+        $duplicates = new Collection();
+
+        $duplicates->add([]);
+        return $duplicates;
     }
 
 }
