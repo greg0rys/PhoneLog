@@ -45,19 +45,13 @@ class Parser extends Model
                 if (count($headers) === count($row)) {
                     $record = array_combine($headers, $row);
 
-                    $callerNumber = isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown';
-                    $callerId = isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown';
-                    $callStatus = isset($record['Call Status']) ? $record['Call Status'] : 'Unknown';
-                    $startTime = isset($record['Start Time']) ? $record['Start Time'] : 'Unknown';
-                    $endTime = isset($record['End Time']) ? $record['End Time'] : 'Unknown';
-
                     // create and store record
                     CDRRecord::create([
-                        'caller_number' => $callerNumber,
-                        'caller_id' => $callerId,
-                        'call_status' => $callStatus,
-                        'start_time' => $startTime,
-                        'end_time' => $endTime,
+                        'caller_number' => isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown',
+                        'caller_id' => isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown',
+                        'call_status' => isset($record['Call Status']) ? $record['Call Status'] : 'Unknown',
+                        'start_time' => isset($record['Start Time']) ? $record['Start Time'] : 'Unknown',
+                        'end_time' => isset($record['End Time']) ? $record['End Time'] : 'Unknown',
                     ]);
                 }
             }
@@ -72,16 +66,15 @@ class Parser extends Model
     }
 
     /**
-     * compare two files and return duplicate rows as a collection of strings
+     * compare to files to avoid processing old files / duplicate entries for a given day.
      * @param string $file1
      * @param string $file2
      * @return Collection<string, string>
      */
     static public function find_duplicate_rows(string $path_one, string $path_two): Collection
     {
-        $duplicates = new Collection();
+        $duplicates = collect([]); // hold the array of duplicate CDRRecord models
 
-        $duplicates->add("v");
         return $duplicates;
     }
 

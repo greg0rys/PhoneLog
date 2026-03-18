@@ -25,7 +25,8 @@
             </ul>
             <ul>
                 <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Contacts</a></li>
             </ul>
         </nav>
     </header>
