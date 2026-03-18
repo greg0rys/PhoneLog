@@ -21,15 +21,19 @@ class CDRRecord extends Model
 {
     use SoftDeletes;
 
+
+    protected $table = "cdr_records";
     /**
      * fillable 
      * @var array
      */
     protected $fillable = [
-        "caller",
-        "call_date",
-        "call_time",
+        "caller_number",
+        "caller_id",
+        "call_status",
         "answered_by",
+        "start_time",
+        "end_time",
     ];
 
 
@@ -40,7 +44,7 @@ class CDRRecord extends Model
         'answered_by' => 'string',
     ];
 
-    
+
 
 
 

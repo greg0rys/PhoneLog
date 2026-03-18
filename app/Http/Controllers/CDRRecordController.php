@@ -15,8 +15,8 @@ class CDRRecordController extends Controller
     public function index()
     {
         //
-        $record = CDRRecord::orderBy("id", "desc")->paginate(10);
-        return view("record.upload-csv");
+        $record = CDRRecord::all();
+        return view("record.index", ["records" => $record]);
     }
 
     /**
@@ -73,9 +73,9 @@ class CDRRecordController extends Controller
      * @param CDRRecord $cDRRecord
      * @return \Illuminate\Contracts\View\View
      */
-    public function search_by_number(CDRRecord $cdr)
+    public function search_by_number(Request $request)
     {
-        $all = CDRRecord::where('caller_number', $cdr->caller_number)->get();
+        $all = CDRRecord::where('caller_number', $request->caller_number)->get();
         return view('record.search', ['results' => $all]);
     }
 

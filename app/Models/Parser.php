@@ -20,12 +20,12 @@ class Parser extends Model
 
     /**
      * Parses the file and creates CDRRecord objects
-     * @return void
+     * @return bool
      */
     static public function parse_file(): bool
     {
         // parse the cdr file.
-        $file = storage_path("storage/public/records");
+        $file = storage_path("app/public/records/record.csv");
         if (($handle = fopen($file, "r")) !== FALSE) {
 
             // Get the headers from the first row
@@ -35,55 +35,41 @@ class Parser extends Model
                 die("Error: Could not read headers from the file.\n");
             }
 
-            // 3. Loop through the rest of the rows in the CSV
+            // Trim whitespace from headers to ensure exact key matches for array_combine
+            $headers = array_map('trim', $headers);
+
             while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
 
                 // Ensure the row matches the header count to avoid array alignment errors
                 if (count($headers) === count($row)) {
-                    // Combine headers with the row data
                     $record = array_combine($headers, $row);
 
-                    $callerId = isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown';
-                    $callerName = isset($record['Caller Name']) ? $record['Caller Name'] : 'Unknown';
                     $callerNumber = isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown';
-                    $startTime = isset($record['Start Time']) ? $record['Start Time'] : 'Unknown';
+                    $callerId = isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown';
                     $callStatus = isset($record['Call Status']) ? $record['Call Status'] : 'Unknown';
+                    $startTime = isset($record['Start Time']) ? $record['Start Time'] : 'Unknown';
+                    $endTime = isset($record['End Time']) ? $record['End Time'] : 'Unknown';
+                    $answered_by = isset($record['Answered By']) ? $record['Answered By'] : 'Unknown';
 
+                    // create and store record
                     CDRRecord::create([
-                        'Caller ID' => $callerId,
-                        'Caller Name' => $callerName,
-                        'Caller Number' => $callerNumber,
-                        'Start Time' => $startTime,
-                        'Call Status' => $callStatus
+                        'caller_number' => $callerNumber,
+                        'caller_id' => $callerId,
+                        'call_status' => $callStatus,
+                        'start_time' => $startTime,
+                        'end_time' => $endTime,
+                        'answered_by' => $answered_by,
                     ]);
                 }
             }
 
-            // Close the file now that we are done reading it
             fclose($handle);
 
         } else {
             return false;
         }
 
-        return true; // if we made it here, the file has been parsed. 
+        return true;
     }
 
-    /**
-     * Get the results of the parse, returned as an array of record objects
-     * @return array
-     */
-    static public function get_results(): array
-    {
-        return [];
-    }
-
-    /**
-     * App Storage || lest || 
-     * @return bool
-     */
-    static public function search_file(): bool
-    {
-        return false;
-    }
 }
