@@ -76,4 +76,10 @@ __3/17/2026__
     }
 
     Route::resource('upload-csv', CDRRecordController::class);
+```
+
+    # 03.19.26
+        * created CallHistory Model 
+        * created Contact Model
+
 
