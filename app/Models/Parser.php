@@ -27,6 +27,7 @@ class Parser extends Model
     {
         // parse the cdr file.
         $file = storage_path("app/public/records/record.csv");
+        $count = 0;
         if (($handle = fopen($file, "r")) !== FALSE) {
 
             // Get the headers from the first row
@@ -45,17 +46,46 @@ class Parser extends Model
                 if (count($headers) === count($row)) {
                     $record = array_combine($headers, $row);
 
-                    // create and store record
-                    CDRRecord::create([
-                        'caller_number' => isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown',
-                        'caller_id' => isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown',
-                        'call_status' => isset($record['Call Status']) ? $record['Call Status'] : 'Unknown',
-                        'start_time' => isset($record['Start Time']) ? $record['Start Time'] : 'Unknown',
-                        'end_time' => isset($record['End Time']) ? $record['End Time'] : 'Unknown',
-                    ]);
+                    // // create and store record
+                    // CDRRecord::create([
+                    //     'caller_number' => isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown',
+                    //     'caller_id' => isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown',
+                    //     'call_status' => isset($record['Call Status']) ? $record['Call Status'] : 'Unknown',
+                    //     'start_time' => isset($record['Start Time']) ? $record['Start Time'] : 'Unknown',
+                    //     'end_time' => isset($record['End Time']) ? $record['End Time'] : 'Unknown',
+                    // ]);
+
+                    $new_record = CDRRecord::firstOrCreate(
+                        // Argument 1: Search Condition (Only ONE set of brackets!)
+                        ['start_time' => $record['Start Time']],
+
+                        // Argument 2: Creation Values (Only ONE set of brackets!)
+                        [
+                            'caller_number' => isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown',
+                            'caller_id' => isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown',
+                            'call_status' => isset($record['Call Status']) ? $record['Call Status'] : 'Unknown',
+                            'end_time' => isset($record['End Time']) ? $record['End Time'] : 'Unknown'
+                        ]
+                    );
+
+                    $user = Contact::where('caller_number', $new_record->caller_number);
+                    if ($user->count() != 0):
+                        $user->call_records()->create([
+                            "user_id" => $user->id,
+                            "call_id" => $new_record->id,
+                        ]);
+
+                        echo "Success call assoicated. \n";
+                    else:
+                        "no contact to assoicate. \n";
+                    endif;
+
+                    $count++;
+
                 }
             }
 
+            echo "Created $count new records";
             fclose($handle);
 
         } else {
@@ -65,17 +95,16 @@ class Parser extends Model
         return true;
     }
 
-    /**
-     * compare to files to avoid processing old files / duplicate entries for a given day.
-     * @param string $file1
-     * @param string $file2
-     * @return Collection<string, string>
-     */
-    static public function find_duplicate_rows(string $path_one, string $path_two): Collection
+    static public function associate_calls($calls, User $user): bool
     {
-        $duplicates = collect([]); // hold the array of duplicate CDRRecord models
-
-        return $duplicates;
+        foreach ($calls as $call) {
+            if ($call["Caller Number"] == $user->caller_number) {
+                return false;
+            }
+        }
+        return true; // we made it
     }
+
+
 
 }
