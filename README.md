@@ -1,3 +1,5 @@
+[App Tests](tests/Feature)
+
 # Grandstream Phone Log Tool
   *A client uses a Grandstream phone system which does not come with a robust logging tool on its own. So we made one!*
   ![Log](/resources/app-images/intro.gif)
