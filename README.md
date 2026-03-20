@@ -1,6 +1,7 @@
 # Grandstream Phone Log Tool
   *A client uses a Grandstream phone system which does not come with a robust logging tool on its own. So we made one!*
-## 🛠️ Tech Stack
+  ![Log](/resources/app-images/intro.gif)
+## Built with ❤️ Stacked With
 
 | Tool | Category | Primary Purpose |
 | :--- | :--- | :--- |
@@ -34,7 +35,7 @@ erDiagram
 # Logic Flow
 ```mermaid
 graph LR
-    A[Incoming Call] --> B(Laravel Webhook)
+    A[CDR File Parse Starts] --> B(Creates Record Model for each call)
     B --> C{Find Contact?}
     C -->|Yes| D[Link to Contact ID]
     C -->|No| E[Create New Contact]
