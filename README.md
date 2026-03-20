@@ -10,8 +10,6 @@
 | **Laragon** | Environment | Local development server for managing PHP, Apache/Nginx, and MySQL. |
 
 
-# Usage 
-
 # Relationships
 
 ```mermaid
@@ -40,8 +38,7 @@ graph LR
     C -->|Yes| D[Link to Contact ID]
     C -->|No| E[Create New Contact]
     D --> F[Store CdrRecord in MySQL]
-    E --> F
-    F --> G[Cache Latest Call in Redis]
 ```
 
+# Usage
 
