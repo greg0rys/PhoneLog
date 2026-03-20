@@ -15,7 +15,6 @@ class Contact extends Model
     /** @use HasFactory<\Database\Factories\ContactFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $table = "call_history";
 
     protected $fillable = [
         "name",
@@ -32,14 +31,6 @@ class Contact extends Model
     ];
 
 
-    /**
-     * Define the one to many relationship to assoicate Contacts with CDR records that they have.
-     * @return HasMany<CDRRecord, Contact>
-     */
-    public function call_records(): HasMany
-    {
-        return $this->hasMany(CDRRecord::class, 'call');
-    }
 
 
 }
