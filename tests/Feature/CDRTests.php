@@ -26,7 +26,3 @@ it("can delete a cdr record", function () {
     $delete_rec = CDRRecord::first();
     expect($delete_rec)->toBeNull();
 });
-
-it("can assign a record id to a contact", function()[
-
-]);
