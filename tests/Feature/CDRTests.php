@@ -17,5 +17,5 @@ test("it can process a new CDR record", function () {
 it("can update a cdr record", function(){
     $record = CDRRecord::factory(1)->create()->first();
     $record->update(["caller_id" => "1111"]);
-    expect($record->exists)->toBeTrue();
+    expect($record->caller_id)->toBe("1111");
 });
