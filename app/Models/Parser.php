@@ -61,6 +61,7 @@ class Parser extends Model
 
                         // Argument 2: Creation Values (Only ONE set of brackets!)
                         [
+                            'contact_id' => Contact::all()->random()->id,
                             'caller_number' => isset($record['Caller Number']) ? $record['Caller Number'] : 'Unknown',
                             'caller_id' => isset($record['Caller ID']) ? $record['Caller ID'] : 'Unknown',
                             'call_status' => isset($record['Call Status']) ? $record['Call Status'] : 'Unknown',

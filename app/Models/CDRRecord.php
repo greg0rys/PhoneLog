@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use App\Observers\CDRRecordObserver;
@@ -47,6 +48,7 @@ class CDRRecord extends Model
      * @var array
      */
     protected $fillable = [
+        "contact_id",
         "caller_number",
         "caller_id",
         "call_status",
@@ -57,11 +59,21 @@ class CDRRecord extends Model
 
 
     protected $casts = [
+        'contact_id' => 'integer',
         'call_date' => 'datetime',
         'call_time' => 'datetime',
         'caller' => 'string',
         'answered_by' => 'string',
     ];
+
+    /**
+     * Establish the 1:1 relationship of a contact to a call record
+     * @return BelongsTo<Contact, CDRRecord>
+     */
+    public function contact(): BelongsTo
+    {
+        return $this->belongsTo(Contact::class, 'contact_id', 'id');
+    }
 
 
 
