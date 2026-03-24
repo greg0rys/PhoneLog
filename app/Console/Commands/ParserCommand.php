@@ -33,6 +33,7 @@ class ParserCommand extends Command
         if($records->isEmpty()) return self::FAILURE;
         $this->info("Success File Found! Total Records: " . $records->count());
 
+        // GS 3.23.26 implement progress bar in microseconds
         $this->output->progressStart($records->count());
         foreach ($records as $record):
             $this->output->progressAdvance();
