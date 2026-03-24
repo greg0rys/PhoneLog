@@ -54,8 +54,8 @@ php artisan parser:parse
 ```
 | Command | Schedule | Primary Purpose |
 | :--- | :--- | :--- |
-| **parser:parse** | Daily @ 04:00am | Parses the CSV file inside of /storage/public/records. |
-| **MySQL** | Data Store | In-memory data structure store used for caching and queues. |
-| **Laragon** | Environment | Local development server for managing PHP, Apache/Nginx, and MySQL. |
+| [**parser:parse**](app\Console\Commands\ParserCommand.php) | Daily @ 04:00am | Parses the CSV file inside of /storage/public/records. |
+| **SQLite** | Data Store | In-memory data structure store used for caching and queues. |
+| **Laragon** | Environment | Local development server |
 
 
