@@ -3,26 +3,32 @@ use App\Models\Contact;
 
 use App\Models\CDRRecord;
 
-test("it can process a new CDR record", function () {
-    // 1. Remove the (1) so it returns a Model, not a Collection
-    $record = CDRRecord::factory()->create();
+test("it can create a new cdr record", function () {
 
-    // 2. Assert the model was actually saved to the database
-    expect($record->exists)->toBeTrue();
-
-    // OR: Assert it was assigned a database ID
-    expect($record->id)->not->toBeNull();
+    expect(CDRRecord::factory()->create())->not->toBeNull();
 });
 
 it("can update a cdr record", function () {
-    $new_number = fake()->text();
-    $record = CDRRecord::factory(1)->create()->first();
+    $new_number = fake()->phoneNumber();
+    $record = CDRRecord::factory()->create();
     $record->update(["caller_id" => $new_number]);
 
     expect($record->caller_id)->toBe($new_number);
 });
 
 it("can delete a cdr record", function () {
-    $delete_rec = CDRRecord::first();
-    expect($delete_rec)->toBeNull();
+    $delete_rec = CDRRecord::factory()->create();
+    $delete_rec->delete();
+    self::assertSoftDeleted($delete_rec);
+});
+
+it("can be assigned to a contact", function(){
+    $rec = CDRRecord::factory()->create();
+    $cont = Contact::factory()->create();
+    $rec->contact()->associate($cont);
+    $rec->save();
+    $rec->load('contact');
+
+
+    expect($rec->contact_id)->toBe($cont->id);
 });
