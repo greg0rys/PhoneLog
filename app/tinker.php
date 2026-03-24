@@ -61,4 +61,6 @@ foreach ($duplicates as $dup) {
     echo "Call from {$dup->caller_id} rang {$dup->phones_rung} phones.\n";
 }
 
-echo Contact::pluck('id')->first();
+Contact::pluck(column: 'id')->each(function($c){
+    echo "$c\n";
+});

@@ -55,7 +55,7 @@ php artisan parser:parse
 | Command | Schedule | Primary Purpose |
 | :--- | :--- | :--- |
 | [**parser:parse**](app\Console\Commands\ParserCommand.php) | Daily @ 04:00am | Parses the CSV file inside of /storage/public/records. |
-| **SQLite** | Data Store | In-memory data structure store used for caching and queues. |
+| [**app:record_search**](app\Console\Commands\RecordSearchCommand.php) | N/A | Searches for records in the console. |
 | **Laragon** | Environment | Local development server |
 
 
