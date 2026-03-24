@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\CDRRecord;
 use Carbon\Carbon;
+use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,10 +20,13 @@ class CDRRecordFactory extends Factory
     public function definition(): array
     {
         return [
-            'caller_number' => (string)fake()->phoneNumber(),
-            'caller_id' => fake()->name(),
-            'call_status' => "Answered",
-            'end_time' => Carbon::now(),
+
+        "contact_id" => Contact::factory(),
+        "caller_number" => fake()->phoneNumber(),
+        "caller_id" => fake()->name(),
+        "call_status" => fake()->safeColorName(),
+        "start_time" => Carbon::now(),
+        "end_time" => Carbon::now(),
         ];
     }
 }

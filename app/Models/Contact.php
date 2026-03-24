@@ -30,6 +30,11 @@ class Contact extends Model
         "phone_number" => "string",
     ];
 
+    public function records(): HasMany
+    {
+        return $this->hasMany(CDRRecord::class, 'contact_id');
+    }
+
 
 
 

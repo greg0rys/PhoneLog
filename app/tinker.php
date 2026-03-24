@@ -64,3 +64,6 @@ foreach ($duplicates as $dup) {
 Contact::pluck(column: 'id')->each(function($c){
     echo "$c\n";
 });
+
+
+Contact::factory(10)->create();
