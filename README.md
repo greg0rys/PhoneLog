@@ -41,13 +41,13 @@ graph TD
     C -->|Yes| D[Link to Contact ID]
     
     %% The "No" path
-    C -->|No| E[Find Contact Data]
-    E --> F[Associate Contact]
+    C -->|No| E[Create Contact]
+    E --> F[Associate Contact with Record]
     F --> G[(Save to SQLite DB)]
     G --> D
     
     %% Final step
-    D --> H[(Store CdrRecord in MySQL)]
+    D --> H[(Store CdrRecord in SQLite DB)]
 ```
 
 # Usage
