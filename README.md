@@ -19,8 +19,7 @@ erDiagram
     CONTACT ||--o{ CDR_RECORD : "has many"
     CONTACT {
         int id PK
-        string first_name
-        string last_name
+        string name
         string phone_number
     }
     CDR_RECORD {
@@ -28,8 +27,8 @@ erDiagram
         int contact_id FK
         string caller_id
         string call_status
-        int duration
-        datetime call_at
+        datetime start_time
+        datetime end_time
     }
 ```
 
