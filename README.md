@@ -26,7 +26,7 @@ erDiagram
     CDR_RECORD {
         int id PK
         int contact_id FK
-        string direction
+        string caller_id
         int duration
         datetime call_at
     }
