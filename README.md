@@ -1,14 +1,13 @@
 [App Tests](tests/Feature)
 
 # Grandstream Phone Log Tool
-  *A client uses a Grandstream phone system which does not come with a robust logging tool on its own. So we made one!*
   ![Log](/resources/app-images/intro.gif)
 ## Built with ❤️ Stacked With
 
 | Tool | Category | Primary Purpose |
 | :--- | :--- | :--- |
 | **Laravel** | Framework | PHP web framework for elegant, full-stack development. |
-| **MySQL** | Data Store | In-memory data structure store used for caching and queues. |
+| **SQLite** | Data Store | In-memory data structure store used for caching and queues. |
 | **Laragon** | Environment | Local development server for managing PHP, Apache/Nginx, and MySQL. |
 
 
@@ -37,9 +36,18 @@ erDiagram
 graph LR
     A[CDR File Parse Starts] --> B(Creates Record Model for each call)
     B --> C{Find Contact?}
+    
+    %% The "Yes" path
     C -->|Yes| D[Link to Contact ID]
-    C -->|No| E[Create New Contact]
-    D --> F[Store CdrRecord in MySQL]
+    
+    %% The "No" path you wanted added
+    C -->|No| E[Find Contact Data]
+    E --> F[Associate Contact]
+    F --> G[(Save to SQLite DB)]
+    G --> D
+    
+    %% Final step
+    D --> H[(Store CdrRecord in MySQL)]
 ```
 
 # Usage
