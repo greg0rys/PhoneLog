@@ -33,14 +33,14 @@ erDiagram
 
 # Logic Flow
 ```mermaid
-graph LR
+graph TD
     A[CDR File Parse Starts] --> B(Creates Record Model for each call)
     B --> C{Find Contact?}
     
     %% The "Yes" path
     C -->|Yes| D[Link to Contact ID]
     
-    %% The "No" path you wanted added
+    %% The "No" path
     C -->|No| E[Find Contact Data]
     E --> F[Associate Contact]
     F --> G[(Save to SQLite DB)]
