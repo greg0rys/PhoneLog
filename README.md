@@ -27,6 +27,7 @@ erDiagram
         int id PK
         int contact_id FK
         string caller_id
+        string call_status
         int duration
         datetime call_at
     }
