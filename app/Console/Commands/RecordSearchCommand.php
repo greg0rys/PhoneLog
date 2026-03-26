@@ -28,8 +28,5 @@ class RecordSearchCommand extends Command
         //
     }
 
-    public function process_input(): void
-    {
-        
-    }
+    public function process_input(): void {}
 }

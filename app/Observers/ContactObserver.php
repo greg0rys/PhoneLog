@@ -2,18 +2,16 @@
 
 namespace App\Observers;
 
-use App\Models\contact;
+use App\Models\Contact;
 
 class ContactObserver
 {
-    public function saving(contact $contact): void
-    {
-        
-    }    
+    public function saving(Contact $contact): void {}
+
     /**
      * Handle the contact "created" event.
      */
-    public function created(contact $contact): void
+    public function created(Contact $contact): void
     {
         //
     }
@@ -21,7 +19,7 @@ class ContactObserver
     /**
      * Handle the contact "updated" event.
      */
-    public function updated(contact $contact): void
+    public function updated(Contact $contact): void
     {
         //
     }
@@ -29,7 +27,7 @@ class ContactObserver
     /**
      * Handle the contact "deleted" event.
      */
-    public function deleted(contact $contact): void
+    public function deleted(Contact $contact): void
     {
         //
     }
@@ -37,7 +35,7 @@ class ContactObserver
     /**
      * Handle the contact "restored" event.
      */
-    public function restored(contact $contact): void
+    public function restored(Contact $contact): void
     {
         //
     }
@@ -45,7 +43,7 @@ class ContactObserver
     /**
      * Handle the contact "force deleted" event.
      */
-    public function forceDeleted(contact $contact): void
+    public function forceDeleted(Contact $contact): void
     {
         //
     }

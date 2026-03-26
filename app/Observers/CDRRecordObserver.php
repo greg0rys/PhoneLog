@@ -8,9 +8,10 @@ class CDRRecordObserver
 {
     public function saving(CDRRecord $cdr)
     {
-        // validate at save this fires before created
-        
+        // validate at save this fires before created search for start time and delete
+
     }
+
     /**
      * Handle the CDRRecord "created" event.
      */

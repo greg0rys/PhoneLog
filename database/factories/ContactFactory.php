@@ -18,8 +18,8 @@ class ContactFactory extends Factory
     public function definition(): array
     {
         return [
-            "name" => fake()->name(),
-            "phone_number" => fake()->phoneNumber(),
+            'name' => fake()->name(),
+            'phone_number' => fake()->phoneNumber(),
         ];
     }
 }

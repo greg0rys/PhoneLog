@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CSVWorker;
 use App\Http\Requests\StoreCSVWorkerRequest;
 use App\Http\Requests\UpdateCSVWorkerRequest;
+use App\Models\CSVWorker;
 
 class CSVWorkerController extends Controller
 {
@@ -13,7 +13,7 @@ class CSVWorkerController extends Controller
      */
     public function index()
     {
-        return view("csv.index");
+        return view('csv.index');
     }
 
     /**
@@ -37,7 +37,7 @@ class CSVWorkerController extends Controller
      */
     public function show(CSVWorker $csv)
     {
-        return view("csv.show");
+        return view('csv.show');
     }
 
     /**

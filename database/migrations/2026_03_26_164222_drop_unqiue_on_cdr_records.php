@@ -11,18 +11,15 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('cdr_records', function (Blueprint $table) {
-            //
-            $table->foreignId('contact_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            // This creates a composite unique key
+            $table->unique(['caller_number', 'end_time'], 'unique_call_record');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('cdr_records', function (Blueprint $table) {
-            //
+            $table->dropUnique('unique_call_record');
         });
     }
 };

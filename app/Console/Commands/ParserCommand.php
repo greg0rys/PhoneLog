@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Models\Parser;
 use App\Helpers\FileParser;
+use Illuminate\Console\Command;
 
 class ParserCommand extends Command
 {
@@ -30,18 +29,22 @@ class ParserCommand extends Command
         $this->comment('Starting the parser..');
         $records = FileParser::parse_file();
 
-        if($records->isEmpty()) return self::FAILURE;
-        $this->info("Success File Found! Total Records: " . $records->count());
+        if ($records->isEmpty())
+        {
+            return self::FAILURE;
+        }
+        $this->info('Success File Found! Total Records: '.$records->count());
 
         // GS 3.23.26 implement progress bar in microseconds
         $this->output->progressStart($records->count());
-        foreach ($records as $record):
+        foreach ($records as $record)
+        {
             $this->output->progressAdvance();
             usleep(50000);
-        endforeach;
+        }
         $this->output->progressFinish();
 
-        $this->info("Sucess added: " . $records->count() . " records to the database");
+        $this->info('Sucess added: '.$records->count().' records to the database');
 
     }
 }

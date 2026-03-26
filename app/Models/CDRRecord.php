@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Observers\CDRRecordObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use App\Observers\CDRRecordObserver;
+use Illuminate\Support\Carbon;
 
 /**
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord newModelQuery()
@@ -16,15 +17,17 @@ use App\Observers\CDRRecordObserver;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord withoutTrashed()
+ *
  * @property int $id
  * @property string|null $caller_number
  * @property string|null $caller_id
  * @property string|null $call_status
  * @property string|null $start_time
  * @property string|null $end_time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereCallerNumber($value)
@@ -34,29 +37,30 @@ use App\Observers\CDRRecordObserver;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereStartTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|CDRRecord whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 #[ObservedBy(CDRRecordObserver::class)]
 class CDRRecord extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory, SoftDeletes;
 
+    protected $table = 'cdr_records';
 
-    protected $table = "cdr_records";
     /**
-     * fillable 
+     * fillable
+     *
      * @var array
      */
     protected $fillable = [
-        "contact_id",
-        "caller_number",
-        "caller_id",
-        "call_status",
-        "answered_by",
-        "start_time",
-        "end_time",
+        'contact_id',
+        'caller_number',
+        'caller_id',
+        'call_status',
+        'answered_by',
+        'start_time',
+        'end_time',
     ];
-
 
     protected $casts = [
         'contact_id' => 'integer',
@@ -68,15 +72,12 @@ class CDRRecord extends Model
 
     /**
      * Establish the 1:1 relationship of a contact to a call record
+     *
      * @return BelongsTo<Contact, CDRRecord>
      */
     public function contact(): BelongsTo
     {
         return $this->belongsTo(Contact::class, 'contact_id', 'id');
     }
-
-
-
-
-
 }
+

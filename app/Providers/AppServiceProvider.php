@@ -6,7 +6,6 @@ use App\Models\CDRRecord;
 use App\Models\Contact;
 use App\Observers\CDRRecordObserver;
 use App\Observers\ContactObserver;
-use Context;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

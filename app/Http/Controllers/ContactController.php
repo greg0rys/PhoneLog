@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
 use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
+use App\Models\Contact;
 
 class ContactController extends Controller
 {

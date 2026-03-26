@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CDRRecord;
-use App\Models\Parser;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-
 
 class CDRRecordController extends Controller
 {
@@ -16,7 +15,8 @@ class CDRRecordController extends Controller
     {
         //
         $record = CDRRecord::all();
-        return view("record.index", ["records" => $record]);
+
+        return view('record.index', ['records' => $record]);
     }
 
     /**
@@ -67,21 +67,23 @@ class CDRRecordController extends Controller
         //
     }
 
-
     /**
      * Search for records that match the caller name field.
-     * @param CDRRecord $cDRRecord
-     * @return \Illuminate\Contracts\View\View
+     *
+     * @param  CDRRecord  $cDRRecord
+     * @return View
      */
     public function search_by_number(Request $request)
     {
         $all = CDRRecord::where('caller_number', $request->caller_number)->get();
+
         return view('record.search', ['results' => $all]);
     }
 
     /**
      * Search for a CDR record set by the caller name field
-     * @param CDRRecord $cDRRecord
+     *
+     * @param  CDRRecord  $cDRRecord
      * @return CDRRecord|\stdClass|null
      */
     public function search_by_name(CDRRecord $cdr): CDRRecord
@@ -91,8 +93,8 @@ class CDRRecordController extends Controller
 
     /**
      * Search for CDR Records by a date range.
-     * @param CDRRecord $cDRRecord
-     * @return CDRRecord
+     *
+     * @param  CDRRecord  $cDRRecord
      */
     public function search_by_date(CDRRecord $cdr): CDRRecord
     {

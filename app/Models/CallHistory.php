@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CallHistory extends Model
 {
-    protected $table = "call_history";
+    protected $table = 'call_history';
 
     protected $fillable = [
-        "user_id",
-        "call_id"
+        'user_id',
+        'call_id',
     ];
 
     public function user(): BelongsTo

@@ -1,20 +1,20 @@
 <?php
-use App\Models\Contact;
-use App\Models\CDRRecord;
+
 use App\Helpers\FileParser;
+use App\Models\CDRRecord;
+use App\Models\Contact;
 
 /* defenitions */
 
 function make_contact()
 {
     Contact::create([
-        "name" => fake()->name(),
-        "phone_number" => fake()->text()
+        'name' => fake()->name(),
+        'phone_number' => fake()->text(),
     ]);
 
     echo "Added new contact\n";
 }
-
 
 /* CALLS */
 // make_contact();
@@ -50,20 +50,8 @@ function make_contact()
 // View the result in Tinker
 // $onlyDuplicates->all();
 
-$duplicates = CDRRecord::select(['caller_number', 'start_time', 'caller_id'])
-    ->selectRaw('COUNT(*) as phones_rung') // This gets your count!
-    ->groupBy('caller_number')
-    ->havingRaw('COUNT(*) > 1')            // Only show the duplicates
-    ->get();
+CDRRecord::truncate();
 
-// Loop through and print the results
-foreach ($duplicates as $dup) {
-    echo "Call from {$dup->caller_id} rang {$dup->phones_rung} phones.\n";
-}
+$c = FileParser::parse_file();
 
-Contact::pluck(column: 'id')->each(function($c){
-    echo "$c\n";
-});
-
-
-Contact::factory(10)->create();
+echo $c->start_time."\n";
