@@ -66,6 +66,8 @@ class CDRRecord extends Model
         'contact_id' => 'integer',
         'call_date' => 'datetime',
         'call_time' => 'datetime',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
         'caller' => 'string',
         'answered_by' => 'string',
     ];

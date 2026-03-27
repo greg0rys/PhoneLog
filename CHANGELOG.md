@@ -82,4 +82,6 @@ __3/17/2026__
         * created CallHistory Model 
         * created Contact Model
 
+# 03.27.26
+    * Complete refactor of Helpers/FileParser.php
 

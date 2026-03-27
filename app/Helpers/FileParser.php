@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\CDRRecord;
 use App\Models\Contact;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class FileParser
 {
@@ -21,12 +22,13 @@ class FileParser
 
     public static function parse_file(): Collection
     {
-        $new_records = [];
-        $seen_calls = []; // We will use this array to track and skip duplicate ring group logs
+        $new_records = collect();
 
-        if (Contact::all()->isEmpty()) {
-            die("Error: The contacts table is empty. Please add contacts before parsing.\n");
-        }
+        // always make sure there is at least one contact in the db
+        if(Contact::all()->isEmpty())
+            Contact::factory()->create();
+
+        $contact_ids = collect(Contact::pluck("id"));
 
         // Call storage_path() here when the method actually runs
         $full_path = storage_path(static::$file_path);
@@ -36,66 +38,59 @@ class FileParser
             // Get the headers from the first row
             $headers = fgetcsv($handle, 10000, ",");
 
-            if ($headers === FALSE) {
+            if (!$headers) {
                 die("Error: Could not read headers from the file.\n");
             }
 
-            // Trim whitespace from headers to ensure exact key matches
+            // be gone whitespace! 
             $headers = array_map('trim', $headers);
 
             while (($row = fgetcsv($handle, 10000, ",")) !== FALSE) {
 
-                // Ensure the row matches the header count to avoid array alignment errors
+                // make sure we have the same number of rows as headers.
                 if (count($headers) === count($row)) {
                     $record = array_combine($headers, $row);
 
-                    // --- PARSING & CLEANUP START ---
-                    
-                    // Grab the raw combined string from the CSV
+
                     $rawCallerInfo = isset($record['Caller Number']) ? trim($record['Caller Number']) : '';
-                    $callEndTime = isset($record['End Time']) ? trim($record['End Time']) : 'Unknown';
+                    $call_end = isset($record['End Time']) ? trim($record['End Time']) : 'Unknown';
+                    $call_start = isset($record['Start Time']) ? trim($record['Start Time']) : 'Unknown';
+                    $caller_name = 'Unknown';
+                    $caller_number = 'Unknown';
+                    $call_status = isset($record['Call Status']) ? trim($record['Call Status']) : 'Unknown';
 
-                    $finalCallerName = 'Unknown';
-                    $finalCallerNumber = 'Unknown';
-
-                    // Regex looks for: "Anything" <Anything> STEVE ON ALL THINGS HOLY DO NOT CHANGE THIS IF/ELSE PLS U WILL BREAK IT AND I DON'T WANT TO REDO THE REGEX
+                    // looks for anything: "Anything" <Anything> STEVE ON ALL THINGS HOLY DO NOT CHANGE THIS IF/ELSE PLS U WILL BREAK IT AND I DON'T WANT TO REDO THE REGEX
                     if (preg_match('/"(.*?)"\s*<(.*?)>/', $rawCallerInfo, $matches)) {
-                        
+
                         $parsedName = trim($matches[1]);
                         $parsedNumber = trim($matches[2]);
 
-                        $finalCallerName = $parsedName === '' ? 'Unknown' : $parsedName;
-                        $finalCallerNumber = $parsedNumber === '' ? 'Unknown' : $parsedNumber;
-                        
+                        $caller_name = $parsedName === '' ? 'Unknown' : $parsedName;
+                        $caller_number = $parsedNumber === '' ? 'Unknown' : $parsedNumber;
+
                     } else {
                         // Whoopsiessssssss storing whatever data found, if we make it here.. Steve touched my above code. This else{} should typically skip
-                        $finalCallerNumber = $rawCallerInfo === '' ? 'Unknown' : $rawCallerInfo;
+                        $caller_number = $rawCallerInfo === '' ? 'Unknown' : $rawCallerInfo;
                     }
 
-                    // --- DEDUPLICATION LOGIC START ---
-                    
-                    // Create a unique footprint for this call (Number + Time)
-                    $uniqueCallKey = $finalCallerNumber . '_' . $callEndTime;
+                    /**  Parse the times of the calls to drop the seconds off them. If not then we will end up with duplicate cals*/
+                     
+                    $call_start = Carbon::parse($call_start)->format('Y-m-d H:i');
+                    $call_end = Carbon::parse($call_end)->format('Y-m-d H:i');
 
-                    // If we have already seen this exact call in the file, skip it entirely!
-                    if (in_array($uniqueCallKey, $seen_calls)) {
-                        continue; 
-                    }
-
-                    // Otherwise, add it to our tracker so we skip future duplicates
-                    $seen_calls[] = $uniqueCallKey;
-
-                    // --- PARSING & CLEANUP END ---
-
-                    $new_records[] = CDRRecord::create(
+                    // safely push a new CDRRecord into the collection
+                    $new_records->push(CDRRecord::create(
                         [
-                            'contact_id' => 1,
-                            'caller_number' => $finalCallerNumber,
-                            'caller_id' => $finalCallerName,
-                            'call_status' => isset($record['Call Status']) ? trim($record['Call Status']) : 'Unknown',
-                            'end_time' => $callEndTime
+                            'contact_id' => $contact_ids->random(),
+                            'caller_number' => $caller_number,
+                            'caller_id' => $caller_name,
+                            'call_status' => $call_status,
+                            'start_time' => $call_start,
+                            'end_time' => $call_end,
                         ]
-                    );
+                    ));
+
+
                 }
             }
 
@@ -105,7 +100,7 @@ class FileParser
             die(static::$parse_err);
         }
 
-        return collect($new_records);
+        return $new_records->unique('start_time'); // filter out the duplicate start times
     }
 
     /**
@@ -116,4 +111,5 @@ class FileParser
     {
         return storage_path(static::$file_path);
     }
+
 }
