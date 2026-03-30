@@ -1,7 +1,8 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use Illuminate\Support\Facades\Redis;
 
-    $response->assertStatus(200);
+/* ensure we can get the global ticket counter key*/
+it('can get the latest key', function(){
+    expect(Redis::connection('db3')->get('global_ticket_counter'))->not()->toBeNull();
 });
