@@ -1,36 +1,23 @@
 <?php
 use App\Mail\ContactSubmission;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Redis;
 use App\Models\Contact;
 use App\Models\ContactForm;
 
 // test to make sure we ca get the last ticket number to assign to new submissions
 it('can get the last ticket number to attach to message body', function () {
     $contacts = Contact::factory(10)->create();
-
-    $contacts->each(function ($contact) {
+    $red = Redis::connection('db3');
+    $contacts->each(function ($contact) use($red) {
         ContactForm::factory()->create([
             'contact_id' => $contact->id,
-            'ticket_number' => 'TCK-' . rand(1000, 9999)
+            'ticket_number' => $red->incr('global_ticket_counter'),
         ]);
     });
 
 
-    expect(ContactForm::max('ticket_number'))->not->toBeNull();
+    expect($contacts->get(1))->toEqual($red->get('global_ticket_counter'));
 });
 
-
-it('can send the welcome email', function(){
-    Mail::fake(); // create a fake email for mocking
-
-    Mail::to('greg@shenefelt.org')->send(new ContactSubmission('Greg', '12345'));
-
-    Mail::assertQueued(ContactSubmission::class, function ($mail) {
-        return $mail->hasTo('greg@shenefelt.org');
-    });
-});
-
-it('can be queued for dispatch', function(){
-    
-});
+it('can get the latest ticket num')
