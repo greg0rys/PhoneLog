@@ -23,6 +23,7 @@ class FileParser
     public static function parse_file(): Collection
     {
         $new_records = collect();
+        $collection_counter = 0;
 
         // always make sure there is at least one contact in the db
         if(Contact::all()->isEmpty())
@@ -78,6 +79,7 @@ class FileParser
                     $call_start = Carbon::parse($call_start)->format('Y-m-d H:i');
                     $call_end = Carbon::parse($call_end)->format('Y-m-d H:i');
 
+                
                     // safely push a new CDRRecord into the collection
                     $new_records->push(CDRRecord::create(
                         [
@@ -89,6 +91,7 @@ class FileParser
                             'end_time' => $call_end,
                         ]
                     ));
+                    
 
 
                 }
@@ -100,7 +103,9 @@ class FileParser
             die(static::$parse_err);
         }
 
-        return $new_records->unique('start_time'); // filter out the duplicate start times
+        $filtered_recs = $new_records->unique('start_time');
+        static::output_parse_status($filtered_recs->count());
+        return $filtered_recs; // filter out the duplicate start times
     }
 
     /**
@@ -110,6 +115,11 @@ class FileParser
     public static function get_file_path(): string
     {
         return storage_path(static::$file_path);
+    }
+
+    public static function output_parse_status(int $count = 0): void
+    {
+        echo ($count > 0) ? "Added $count new records to the db\n":'No records added \n';
     }
 
 }

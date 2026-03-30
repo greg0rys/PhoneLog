@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Call Records - Stephens Law Group</title>
+    <title>Shenefelt.org</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 
@@ -21,12 +21,10 @@
     <header class="container">
         <nav>
             <ul>
-                <li><strong><a href="/" class="contrast">Call Records - Stephens Law Group</a></strong></li>
-            </ul>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Search</a></li>
-                <li><a href="#">Contacts</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ url('/portfolio') }}">Portfolio</a></li>
+                <li><a href="{{ url('/contact') }}">Contact Me</a></li>
+                <li><a href="{{ url('https://github.com/greg0rys') }}">GitHub</a></li>
             </ul>
         </nav>
     </header>

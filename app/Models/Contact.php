@@ -18,6 +18,7 @@ class Contact extends Model
 
     protected $fillable = [
         'name',
+        'email',
         'phone_number',
     ];
 
@@ -33,5 +34,10 @@ class Contact extends Model
     public function records(): HasMany
     {
         return $this->hasMany(CDRRecord::class, 'contact_id');
+    }
+
+    public function has_submissions(): HasMany
+    {
+        return self::hasMany(CDRSubmission::class,'');
     }
 }
