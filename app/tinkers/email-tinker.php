@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Redis;
 EmailDispatch::dispatch("greg@shenefelt.org", fake()->text(), "contact submission", fake()->name());
 
 $y = Redis::connection('db3');
-$y->set('global_ticket_counter', 10);
 
 echo "Got admin_name: " . $y->get('admin_name') . " from Redis key store\n";
+echo "Highest ticket number in Redis key store is: {$y->get('global_ticket_counter')}\n";
 
 
 

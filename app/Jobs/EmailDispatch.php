@@ -35,4 +35,9 @@ class EmailDispatch implements ShouldQueue
     {
         Mail::to($this->email)->send(new ContactSubmission($this->name, $this->body, $this->email));
     }
+
+    public function update_email(): void
+    {
+        
+    }
 }

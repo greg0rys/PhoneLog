@@ -78,10 +78,25 @@ __3/17/2026__
     Route::resource('upload-csv', CDRRecordController::class);
 ```
 
-    # 03.19.26
-        * created CallHistory Model 
-        * created Contact Model
+# 03.19.26
+* created CallHistory Model 
+* created Contact Model
 
 # 03.27.26
-    * Complete refactor of Helpers/FileParser.php
+* Complete refactor of Helpers/FileParser.php
 
+# 03.30.26
+* Redis implementaions:
+    * global_ticket_counter - holds latest ticket number
+    * Used for queue jobs suchs as sending emails
+```php
+use Illuminate\Support\Facades\Redis;
+/* this also increments the current counter value */
+Redis::connection('db3')->incr('global_ticket_counter');
+```
+* Made updates to the routes/console.php to include a scheduled command to work the job of emails.
+```php
+use Illuminate\Support\Facades\Schedule;
+/* run the queue every one minute and stop running when empty */
+Schedule::command('queue:work --stop-when-empty')->everyMinute();
+```
