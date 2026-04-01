@@ -1,4 +1,5 @@
 [App Tests](tests/Feature)
+[Change Log](CHANGELOG.md)
 
 # Grandstream Phone Log Tool
   ![Log](/resources/app-images/intro.gif)
